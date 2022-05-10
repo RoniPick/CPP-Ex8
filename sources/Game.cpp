@@ -5,6 +5,7 @@
 
 namespace coup{
     const size_t one = 1;
+    const size_t six = 6;
 
     Game::Game(){
         std::vector<coup::Player*> playersList;
@@ -13,19 +14,22 @@ namespace coup{
     }
     
     string Game::turn(){
-        return playersList.at(curplayer)->name;
+        return this->playersList.at(this->curplayer)->name;
     }
 
     vector<string> Game::players(){
         vector<string> ans;
-        for(Player *p : playersList){
+        size_t active =0;
+        for(Player *p : this->playersList){
             if(p->alive == true){
                 ans.push_back(p->name);
+                active++;
             }
         }
-        // if(ans.size() <= 1 || ans.size() > 7){
-        //     throw invalid_argument("wrong number of players");
-        // }
+
+        if(active < 1 || active > 7){
+            throw invalid_argument("wrong number of players");
+        }
 
         return ans;
     }
@@ -51,25 +55,25 @@ namespace coup{
     }
 
     void Game::addPlayer(Player &player){
-        if(playersList.size() > 6){
+        if(playersList.size() >= 6){
             throw invalid_argument("The list of players if full");
         }
         else{
-            playersList.push_back(&player);
+            this->playersList.push_back(&player);
         }
     }
 
     void Game::nextTurn(){
-        size_t mod = playersList.size();
+        size_t mod = this->playersList.size();
         this->curplayer = (this->curplayer+1) % mod;
 
         bool next = false;
         while(next == false){
-           if(this->playersList.at(curplayer)->alive == false){
+           if(this->playersList.at(this->curplayer)->alive == false){
                 this->curplayer = (this->curplayer+1) % mod;
             } 
             else{
-                this->curplayer = this->curplayer % mod;
+                //this->curplayer = this->curplayer % mod;
                 next = true;
             }
         }

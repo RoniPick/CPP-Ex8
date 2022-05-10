@@ -12,7 +12,11 @@ namespace coup{
             throw invalid_argument("Not enough coins");
         }
 
-        else if(this->coinsNum>=three && this->coinsNum<=six){
+        if(!player.alive){
+            throw invalid_argument("Player allready dead");
+        }
+
+        if(this->coinsNum>=three && this->coinsNum<=six){
             this->coinsNum-=three;
             player.alive = false;
             this->gamenum.addBlock("Contessa", *this);

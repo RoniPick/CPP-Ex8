@@ -5,7 +5,7 @@ using namespace std;
 
 namespace coup{
     void Contessa::block(Player &player){
-        if(this->alive == false){
+        if(!this->alive){
             throw invalid_argument("Player dead");
         }
 

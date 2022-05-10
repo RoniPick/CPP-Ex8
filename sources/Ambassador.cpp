@@ -1,4 +1,5 @@
 #include "Ambassador.hpp"
+#include "Captain.hpp"
 
 using namespace std;
 
@@ -16,8 +17,9 @@ namespace coup{
     }
 
     void Ambassador::block(Player &player){
-         if(this->gamenum.blockable(player, "Captain") && this->gamenum.blockable(player, "Ambassador")){
-            //this->stolen->coinsNum+=two;
+          if(player.role() == "Captain"){  
+            Captain *cap = dynamic_cast<Captain *>(&player);
+            cap->stolen->coinsNum+=2;
             this->lastAction="block";
             player.coinsNum-=two;
         }

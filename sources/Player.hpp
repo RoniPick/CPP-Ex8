@@ -13,6 +13,7 @@ namespace coup{
         string name;
         Game &gamenum;
         
+
     public:
         string lastAction;
         size_t coinsNum=0;

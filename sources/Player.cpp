@@ -6,6 +6,7 @@ using namespace std;
 
 namespace coup{
     const size_t two = 2;
+    const size_t six = 6;
     const size_t seven = 7;
     const size_t ten = 10;
 
@@ -20,31 +21,33 @@ namespace coup{
     }
 
     void Player::income(){
-        if(this->gamenum.players().size()<=1 && this->gamenum.game_started == true){
+        if(this->gamenum.players().size()<=1 && !this->gamenum.game_started){
             throw invalid_argument("Only 1 player");
         }
+        this->gamenum.game_started = true;
 
         if(this->coins() >= ten){
-
+            throw invalid_argument("Must coup");
         }
 
         if(this->gamenum.turn() != this->name){
-            throw invalid_argument("Not your turn!");
+            throw invalid_argument("Not your turn!:(");
         }
 
         this->coinsNum++;
-        this->gamenum.game_started = true;
+        
         this->lastAction="income";
         this->gamenum.nextTurn();
      }
 
     void Player::foreign_aid(){
-        if(this->gamenum.players().size()<=1 && this->gamenum.game_started == true){
+        if(this->gamenum.players().size()<=1 && !this->gamenum.game_started){
             throw invalid_argument("Only 1 player");
         }
+        this->gamenum.game_started = true;
 
         if(this->coins() >= ten){
-            
+            throw invalid_argument("Must coup");
         }
 
         if(this->gamenum.turn() != this->name){
@@ -60,9 +63,13 @@ namespace coup{
     }
 
     void Player::coup(Player &player){
-        if(player.coins() < seven){
+        if(this->coins() <= six){
             throw invalid_argument("Not enough coins");
         }
+        if(!player.alive){
+            throw invalid_argument("Player allready dead");
+        }
+
         player.alive = false;
         this->coinsNum -= seven;
         this->lastAction="coup";
