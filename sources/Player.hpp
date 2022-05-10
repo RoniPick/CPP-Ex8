@@ -18,13 +18,12 @@ namespace coup{
         string lastAction;
         size_t coinsNum=0;
         bool alive = true;
-        Player(Game &num, string name);
-        //~Player();
+        Player(Game &num, string& name);
 
         void income();
         void foreign_aid();
         virtual void coup(Player &player);
-        size_t coins();
+        size_t coins() const;
         virtual string role();
 
     };

@@ -6,6 +6,7 @@
 namespace coup{
     const size_t one = 1;
     const size_t six = 6;
+    const size_t seven = 7;
 
     Game::Game(){
         std::vector<coup::Player*> playersList;
@@ -19,15 +20,15 @@ namespace coup{
 
     vector<string> Game::players(){
         vector<string> ans;
-        size_t active =0;
+        size_t active = 0;
         for(Player *p : this->playersList){
-            if(p->alive == true){
+            if(p->alive){
                 ans.push_back(p->name);
                 active++;
             }
         }
 
-        if(active < 1 || active > 7){
+        if(active < one || active > seven){
             throw invalid_argument("wrong number of players");
         }
 
@@ -40,27 +41,26 @@ namespace coup{
         }
 
         size_t active = 0;
-        Player *win;
+        string win = " ";
         for(Player *p : playersList){
-            if(p->alive == true){
+            if(p->alive){
                 active++;
-                win = p;
+                win = p->name;
             }
         }
-        if(active > 1){
+        if(active > one){
             throw invalid_argument("Too many participents still in the game!"); 
         }
 
-        return win->name;
+        return win;
     }
 
     void Game::addPlayer(Player &player){
-        if(playersList.size() >= 6){
+        if(playersList.size() >= six){
             throw invalid_argument("The list of players if full");
         }
-        else{
-            this->playersList.push_back(&player);
-        }
+        
+        this->playersList.push_back(&player);
     }
 
     void Game::nextTurn(){
@@ -68,12 +68,10 @@ namespace coup{
         this->curplayer = (this->curplayer+1) % mod;
 
         bool next = false;
-        while(next == false){
-           if(this->playersList.at(this->curplayer)->alive == false){
+        while(!next){
+           if(!this->playersList.at(this->curplayer)->alive){
                 this->curplayer = (this->curplayer+1) % mod;
-            } 
-            else{
-                //this->curplayer = this->curplayer % mod;
+            }else{
                 next = true;
             }
         }
@@ -82,7 +80,7 @@ namespace coup{
     }
 
 //add the player into the list of the role that can block him
-    void Game::addBlock(string n, Player &player){
+    void Game::addBlock(const string &n, Player &player){
         if(n == "Duke"){
             dukeBlock.push_back(&player);
         }
@@ -138,7 +136,7 @@ namespace coup{
     }
 
 //check if i can block the player and if the player in the list
-    bool Game::blockable(Player &player, string role){
+    bool Game::blockable(Player &player, const string &role){
         long i=0;
         if(role == "Duke"){
             for(Player *p : dukeBlock){

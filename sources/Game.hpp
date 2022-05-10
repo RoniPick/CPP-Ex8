@@ -30,9 +30,9 @@ namespace coup{
         string winner();
         void addPlayer(Player &player);
         void nextTurn();
-        void addBlock(string n, Player &player);
+        void addBlock(const string &n, Player &player);
         void removeBlock();
-        bool blockable(Player &player, string role);
+        bool blockable(Player &player, const string &role);
     };
 
 

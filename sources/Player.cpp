@@ -10,11 +10,11 @@ namespace coup{
     const size_t seven = 7;
     const size_t ten = 10;
 
-    Player::Player(Game &num, std::string name) : gamenum(num){
+    Player::Player(Game &num, std::string& name) : gamenum(num){
         this->name = name;
         this->alive = true;
         this->lastAction = " ";
-        if(this->gamenum.game_started == true){
+        if(this->gamenum.game_started){
             throw invalid_argument("Game allready started");
         }
         gamenum.addPlayer(*this);
@@ -81,7 +81,7 @@ namespace coup{
         return "";
     }
 
-    size_t Player::coins(){
+    size_t Player::coins() const{
         return this->coinsNum;
     }
 }
